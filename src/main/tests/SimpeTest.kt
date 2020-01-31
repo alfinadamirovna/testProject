@@ -5,7 +5,6 @@ import io.qameta.allure.Feature
 import io.qameta.allure.Story
 import org.testng.annotations.Test
 import com.codeborne.selenide.Selenide.open
-import com.codeborne.selenide.Selenide.*
 import org.openqa.selenium.By
 import org.testng.Assert.assertTrue
 
@@ -17,7 +16,7 @@ class SimpleTest : TestFixture() {
     @Description("Simple test")
     fun SimpleUITest() {
        open(app.baseUrl)
-        assertTrue(`$`(By.cssSelector("input[type='text'][title='Search']")).isDisplayed, "Expected: Search input is displayed")
+        assertTrue(app.utils.get(By.cssSelector("input[type='text'][title='Search']")).isDisplayed, "Expected: Search input is displayed")
 
     }
 }
