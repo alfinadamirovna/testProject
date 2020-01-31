@@ -4,6 +4,6 @@
 .settings/
 target/
 build/reports/tests/*
-allure-results/*
+allure-results
 src/test/kotlin/ui/webdriver/chromedriver
 Maven*

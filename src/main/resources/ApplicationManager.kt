@@ -1,4 +1,4 @@
-package main.test.kotlin.resources
+package main.resources
 
 class ApplicationManager {
     val baseUrl = "https://www.google.com"
