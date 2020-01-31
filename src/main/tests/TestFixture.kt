@@ -1,6 +1,6 @@
-package main.test.kotlin.tests
+package main.tests
 
-import main.test.kotlin.resources.ApplicationManager
+import main.resources.ApplicationManager
 import org.testng.annotations.BeforeClass
 
 open class TestFixture {
