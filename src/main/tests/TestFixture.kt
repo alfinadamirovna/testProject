@@ -1,13 +1,13 @@
 package main.tests
 
 import main.resources.ApplicationManager
-import org.testng.annotations.BeforeClass
+import org.testng.annotations.BeforeMethod
 
 open class TestFixture {
 
     lateinit var app: ApplicationManager
 
-    @BeforeClass
+    @BeforeMethod
     fun init(){
         app = ApplicationManager()
     }

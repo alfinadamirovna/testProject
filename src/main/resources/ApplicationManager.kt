@@ -1,11 +1,15 @@
 package main.resources
 
-import main.tests.Utils
+import main.resources.google.GoogleMainHelper
+import main.resources.google.GoogleSearchResultHelper
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 
 class ApplicationManager {
     val baseUrl = "https://www.google.com"
-    var utils = Utils()
-    private val hubUrl = "http://localhost:4444/wd/hub"
+    val driver: WebDriver = ChromeDriver()
+    var googleSearchHelper = GoogleMainHelper(this)
+    var googleSearchResultHelper = GoogleSearchResultHelper(this)
 
     //mvn clean test
     //allure serve
