@@ -2,28 +2,15 @@ package main.tests
 
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
 
 open class Utils(var driver: WebDriver) {
-//    fun isDisplay(e: SelenideElement, timeout: Long = 5): Boolean {
-//        return try {
-//            e.waitUntil(Condition.visible, timeout * 1000).isDisplayed
-//        } catch (exp: Error) {
-//            false
-//        }
-//    }
-//
-//    // For cssSelectors only
-//    fun isDisplay(e: String, timeout: Long = 5): Boolean {
-//        return try {
-//            get(By.cssSelector(e)).waitUntil(Condition.visible, timeout * 1000).isDisplayed
-//        } catch (exp: Error) {
-//            false
-//        }
-//    }
 
-    fun isDisplay(by: By): Boolean {
+    fun isDisplay(by: By, timeout: Long = 5): Boolean {
         return try {
-            driver.findElement(by).isDisplayed
+            val wait = WebDriverWait(driver, timeout)
+            wait.until(ExpectedConditions.presenceOfElementLocated(by)).isDisplayed
         } catch (exp: Exception) {
             false
         }
@@ -33,10 +20,10 @@ open class Utils(var driver: WebDriver) {
         driver.switchTo().window(ArrayList(driver.windowHandles)[index])
     }
 
-    fun fillInField(selector: String, value: String?) {
-        driver.findElement(By.cssSelector(selector)).click()
-        driver.findElement(By.cssSelector(selector)).clear()
-        driver.findElement(By.cssSelector(selector)).sendKeys(value)
+    fun fillInField(by: By, value: String?) {
+        driver.findElement(by).click()
+        driver.findElement(by).clear()
+        driver.findElement(by).sendKeys(value)
     }
 
 
