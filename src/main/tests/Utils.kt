@@ -16,14 +16,38 @@ open class Utils(var driver: WebDriver) {
         }
     }
 
+    fun isClickable(by: By, timeout: Long = 5): Boolean {
+        return try {
+            val wait = WebDriverWait(driver, timeout)
+            wait.until(ExpectedConditions.elementToBeClickable(by)).isEnabled
+        } catch (exp: Exception) {
+            false
+        }
+    }
+
+    fun isVisible(by: By, timeout: Long = 5): Boolean {
+        return try {
+            val wait = WebDriverWait(driver, timeout)
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by)).isDisplayed
+        } catch (exp: Exception) {
+            false
+        }
+    }
+
     fun switchTab(index: Int) {
         driver.switchTo().window(ArrayList(driver.windowHandles)[index])
     }
 
     fun fillInField(by: By, value: String?) {
-        driver.findElement(by).click()
+        click(by)
         driver.findElement(by).clear()
         driver.findElement(by).sendKeys(value)
+    }
+
+    fun click(by: By) {
+        isClickable(by)
+        isVisible(by)
+        driver.findElement(by).click()
     }
 
 

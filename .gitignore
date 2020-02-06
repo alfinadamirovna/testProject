@@ -7,5 +7,4 @@
 target/
 build/reports/tests/*
 allure-results/
-src/test/kotlin/ui/webdriver/chromedriver
 Maven*
