@@ -9,21 +9,20 @@ import org.testng.Assert.assertTrue
 
 class GoogleSearchResultPage(driver: WebDriver) : Utils(driver) {
 
+    // Locators
     private val searchResultsLocator = By.xpath("//h1[contains(text(),'Search Results')]")
-    private fun searchLocator(searchType: String): By {
-        return By.xpath("//div[@id='hdtbSum']//a[contains(text(),'${GoogleSearchTypes.valueOf(searchType)}')]")
-    }
-
-    private fun chosenSearchLocator(searchType: String): By {
-        return By.xpath("//span[contains(text(),'${GoogleSearchTypes.valueOf(searchType)}')]")
-    }
-
     private val googlePlayIviLinkLocator = By.xpath("//a[contains(@href, 'ivi.client')]")
     private val googlePlayIviRatingLocator = By.xpath("//a[contains(@href, 'ivi.client')]/../..//g-review-stars/..")
-    private fun pageNumberLocator(number: Int): By {
-        return By.xpath("//a[@aria-label='Page $number']")
-    }
+    private val wikiIviLinkLocator = By.xpath("//*[@id='search']//a[contains(@href, 'wikipedia.org')]")
+    private fun searchLocator(searchType: String) =
+        By.xpath("//div[@id='hdtbSum']//a[contains(text(),'${GoogleSearchTypes.valueOf(searchType)}')]")
 
+    private fun chosenSearchLocator(searchType: String) =
+        By.xpath("//span[contains(text(),'${GoogleSearchTypes.valueOf(searchType)}')]")
+
+    private fun pageNumberLocator(number: Int) = By.xpath("//a[@aria-label='Page $number']")
+
+    // Functions
     fun isDisplay(): Boolean {
         return isDisplay(searchResultsLocator)
     }
@@ -34,14 +33,22 @@ class GoogleSearchResultPage(driver: WebDriver) : Utils(driver) {
         assertTrue(isDisplay(chosenSearchLocator(searchType)), "Expected: $searchType is chosen")
     }
 
-    fun searchIviAppRating(appData: String): String {
-        // search decimal number
-        val ratingRegex = Regex(pattern = """\d\.\d""")
+    fun searchWikiLink(): String {
+        return if (isDisplay(wikiIviLinkLocator)) {
+            driver.findElement(wikiIviLinkLocator).getAttribute("href").toString()
+        } else {
+            ""
+        }
+    }
+
+    fun searchIviAppRating(): String {
         return if (isDisplay(googlePlayIviRatingLocator)) {
             val text = driver.findElement(googlePlayIviRatingLocator).text
+            // search decimal number
+            val ratingRegex = Regex(pattern = """\d\.\d""")
             ratingRegex.find(text)!!.value
         } else {
-            appData
+            ""
         }
     }
 
@@ -49,7 +56,13 @@ class GoogleSearchResultPage(driver: WebDriver) : Utils(driver) {
         click(googlePlayIviLinkLocator)
     }
 
+    fun openIviWikiArticleLink() {
+        click(wikiIviLinkLocator)
+    }
+
     fun nextPage(number: Int) {
         click(pageNumberLocator(number))
     }
+
+
 }

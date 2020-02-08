@@ -1,12 +1,12 @@
 package main.resources.google
 
-import main.pages.GoogleMainPage
+import main.pages.GoogleSearchMainPage
 import main.resources.ApplicationManager
 import org.testng.Assert.assertTrue
 
 
-class GoogleMainHelper(app: ApplicationManager) {
-    private val googleMainPage = GoogleMainPage(app.driver)
+class GoogleSearchMainHelper(app: ApplicationManager) {
+    private val googleMainPage = GoogleSearchMainPage(app.driver)
     private val googleSearchResultsPage = GoogleSearchResultHelper(app)
 
 

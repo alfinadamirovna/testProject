@@ -1,6 +1,6 @@
 package main.resources.google
 
-import main.pages.GoogleImagesResultPage
+import main.pages.GoogleSearchImagesResultPage
 import main.pages.GoogleSearchResultPage
 import main.resources.ApplicationManager
 import org.testng.Assert.assertTrue
@@ -8,7 +8,7 @@ import org.testng.Assert.assertTrue
 class GoogleSearchResultHelper(app: ApplicationManager) {
 
     private val googleSearchResultsPage = GoogleSearchResultPage(app.driver)
-    private val googleImagesResultPage = GoogleImagesResultPage(app.driver)
+    private val googleImagesResultPage = GoogleSearchImagesResultPage(app.driver)
 
     fun isDisplay(): Boolean {
         return googleSearchResultsPage.isDisplay()
@@ -23,26 +23,41 @@ class GoogleSearchResultHelper(app: ApplicationManager) {
         return googleImagesResultPage.countImages(maxPages)
     }
 
-    fun searchIviAppRating(maxSearchPages: Int): String {
+    fun search(maxSearchPages: Int, searchFunction: () -> (String)): String {
         assertTrue(isDisplay(), "Expected: Google Search Result page is shown")
         var currentPage = 1
-        var appData = googleSearchResultsPage.searchIviAppRating("-1.0")
-        // search decimal number
-        while (currentPage < maxSearchPages && appData == "-1.0") {
+        var searchData = searchFunction()
+        // if searchData isn't found on the first page, check following pages
+        while (currentPage < maxSearchPages && searchData.isEmpty()) {
             googleSearchResultsPage.nextPage(++currentPage)
-            appData = googleSearchResultsPage.searchIviAppRating(appData)
+            searchData = searchFunction()
         }
-        assertTrue(
-            appData != "-1.0",
-            "Expected: first $maxSearchPages pages contain data about Ivi Google App\nActual: can't find data about Ivi App in search results"
-        )
-        assertTrue(appData.toDouble() <= 5, "Expected: App Rating is less than 5.0\nActual: App Rating = $appData")
-        return appData
+        return searchData
     }
 
-    fun openSearchResult() {
+    fun searchWikiLink(maxSearchPages: Int): String {
+        val wikiLink = search(maxSearchPages, googleSearchResultsPage::searchWikiLink)
+        return wikiLink
+    }
+
+    fun searchIviAppRating(maxSearchPages: Int): String {
+        val rating = search(maxSearchPages, googleSearchResultsPage::searchIviAppRating)
+        assertTrue(
+            rating.isNotEmpty(),
+            "Expected: first $maxSearchPages pages contain data about Ivi Google App\nActual: can't find data about Ivi App in search results"
+        )
+        assertTrue(rating.toDouble() <= 5, "Expected: App Rating is less than 5.0\nActual: App Rating = $rating")
+        return rating
+    }
+
+    fun openIviAppLink() {
         assertTrue(isDisplay(), "Expected: Google Search Result page is shown")
         googleSearchResultsPage.openIviAppLink()
+    }
+
+    fun openWikiLink() {
+        assertTrue(isDisplay(), "Expected: Google Search Result page is shown")
+        googleSearchResultsPage.openIviWikiArticleLink()
     }
 
 }

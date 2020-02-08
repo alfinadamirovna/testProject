@@ -6,7 +6,7 @@ import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 
 
-class GoogleImagesResultPage(driver: WebDriver) : Utils(driver) {
+class GoogleSearchImagesResultPage(driver: WebDriver) : Utils(driver) {
 
     private val imageResultLocator = By.xpath("//div[@id='hdtbSum']//span[contains(text(),'Images')]")
     private val toolsButtonLocator = By.xpath("//div[contains(text(),'Tools')]")
