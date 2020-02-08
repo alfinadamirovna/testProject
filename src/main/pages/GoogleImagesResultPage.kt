@@ -38,6 +38,4 @@ class GoogleImagesResultPage(driver: WebDriver) : Utils(driver) {
         }
         return count
     }
-
-
 }
