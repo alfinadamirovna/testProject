@@ -7,10 +7,12 @@ import org.testng.Assert.assertTrue
 
 class GooglePlayAppPage(driver: WebDriver) : Utils(driver) {
 
+    // Locators
     private val googlePlayLogoLocator = By.xpath("//img[contains(@src, 'android/market_images/')]")
     private val appRatingLocator = By.xpath("//*[contains(@aria-label,'stars out of five stars')]")
     private val iviAppTitleLocator = By.xpath("//h1/span[contains(text(),'ivi')]")
 
+    // Functions
     fun isDisplay(): Boolean {
         return isDisplay(googlePlayLogoLocator)
     }

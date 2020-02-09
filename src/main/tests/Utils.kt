@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
+import org.testng.Assert.assertTrue
 
 open class Utils(var driver: WebDriver) {
 
@@ -35,10 +36,6 @@ open class Utils(var driver: WebDriver) {
         }
     }
 
-    fun switchTab(index: Int) {
-        driver.switchTo().window(ArrayList(driver.windowHandles)[index])
-    }
-
     fun fillInField(by: By, value: String?) {
         click(by)
         driver.findElement(by).clear()
@@ -46,20 +43,15 @@ open class Utils(var driver: WebDriver) {
     }
 
     fun click(by: By) {
-        isClickable(by)
-        isVisible(by)
+        assertTrue(isClickable(by), "Expected: element $by have to be clickable\nActual: can't click to not clickable element")
+        assertTrue(isVisible(by), "Expected: element $by have to be visible\nActual: can't click to invisible element")
         driver.findElement(by).click()
     }
 
-    fun scrollToElement(by: By) {
-        try {
-            val element = driver.findElement(by)
-            (driver as JavascriptExecutor).executeScript(
-                "arguments[0].scrollIntoView();", element
-            )
-        } catch (exp: Exception) {
-        }
+    fun scrollDown() {
+        (driver as JavascriptExecutor)
+            .executeScript("window.scrollTo(0, document.body.scrollHeight);")
+        // Can't find the element which test could wait, add sleep() instead of it. Need to fix it.
+        Thread.sleep(2000)
     }
-
-
 }

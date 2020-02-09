@@ -17,8 +17,9 @@ class SeleniumTest : TestFixture() {
         app.driver.get(app.baseUrl)
         app.googleMainHelper.search("ivi")
         app.googleSearchResultHelper.switchSearchType("Images", hashMapOf("Size" to "Large"))
-        val actualIviLinks = app.googleSearchResultHelper.countIviImagesLinks()
+        val maxSearchPages = 1
         val minExpectedIviLinks = 3
+        val actualIviLinks = app.googleSearchResultHelper.countIviImagesLinks(maxSearchPages, minExpectedIviLinks)
         assertTrue(
             actualIviLinks >= minExpectedIviLinks,
             "Expected: at least $minExpectedIviLinks are shown on search results\nActual: $actualIviLinks are shown on search results"
@@ -46,14 +47,15 @@ class SeleniumTest : TestFixture() {
     @Story("Wikipedia")
     @Test
     @Description("Task 3")
-    fun searchIviInWikiTest() {
+    fun searchIvilinkWikiTest() {
         app.driver.get(app.baseUrl)
         app.googleMainHelper.search("ivi")
         val maxSearchPages = 5
         val wikiLink = app.googleSearchResultHelper.searchWikiLink(maxSearchPages)
+        val expectedLink = "wikipedia.org/wiki/ivi.ru"
         assertTrue(
-            wikiLink.contains("wikipedia.org/wiki/Ivi.ru", ignoreCase = true),
-            "Expected: link to wikipedia contains ivi\nActual: wikipedia link = $wikiLink"
+            wikiLink.contains(expectedLink, ignoreCase = true),
+            "Expected: link to wikipedia contains '$expectedLink'\nActual: wikipedia link = $wikiLink"
         )
         app.googleSearchResultHelper.openWikiLink()
         val links = app.wikipediaHelper.pageContainsLink("ivi.ru")

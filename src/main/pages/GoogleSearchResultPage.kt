@@ -14,6 +14,8 @@ class GoogleSearchResultPage(driver: WebDriver) : Utils(driver) {
     private val googlePlayIviLinkLocator = By.xpath("//a[contains(@href, 'ivi.client')]")
     private val googlePlayIviRatingLocator = By.xpath("//a[contains(@href, 'ivi.client')]/../..//g-review-stars/..")
     private val wikiIviLinkLocator = By.xpath("//*[@id='search']//a[contains(@href, 'wikipedia.org')]")
+
+    //Functions
     private fun searchLocator(searchType: String) =
         By.xpath("//div[@id='hdtbSum']//a[contains(text(),'${GoogleSearchTypes.valueOf(searchType)}')]")
 
@@ -63,6 +65,4 @@ class GoogleSearchResultPage(driver: WebDriver) : Utils(driver) {
     fun nextPage(number: Int) {
         click(pageNumberLocator(number))
     }
-
-
 }

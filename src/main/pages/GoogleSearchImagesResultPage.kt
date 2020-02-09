@@ -2,39 +2,42 @@ package main.pages
 
 import main.tests.Utils
 import org.openqa.selenium.By
-import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
+import org.testng.Assert.assertTrue
 
 
 class GoogleSearchImagesResultPage(driver: WebDriver) : Utils(driver) {
 
-    private val imageResultLocator = By.xpath("//div[@id='hdtbSum']//span[contains(text(),'Images')]")
+    // Locators
+    private val imageResultLocator = By.xpath("//span[contains(text(),'Images')]")
     private val toolsButtonLocator = By.xpath("//div[contains(text(),'Tools')]")
-    private val imgsWithIviLink = By.xpath("//img[data-iurl=contains(text(), 'ivi.ru')]")
+    private val imagesWithIviLinkLocator = By.xpath("//img[data-iurl=contains(text(), 'ivi.ru')]")
+    private fun optionNameLocator(name: String) = By.xpath("//div[contains(text(), '$name')]")
+    private fun optionValueLocator(value: String) = By.xpath("//span[contains(text(), '$value')]")
 
+    // Functions
     fun isDisplay(): Boolean {
         return isDisplay(imageResultLocator)
     }
 
     fun configureSearchResult(option: HashMap<String, String>) {
-        isDisplay()
+        assertTrue(isDisplay(), "Expected: Images Google Search Page is shown")
         click(toolsButtonLocator)
-        val optionNameLocator = By.xpath("//div[contains(text(), '${option.keys.first()}')]")
-        click(optionNameLocator)
-        val optionValueLocator = By.xpath("//span[contains(text(), '${option.values.first()}')]")
-        isDisplay(optionValueLocator)
-        click(optionValueLocator)
-        isDisplay(optionValueLocator)
+        // choose needed option
+        click(optionNameLocator(option.keys.first()))
+        isDisplay(optionValueLocator(option.values.first()))
+        click(optionValueLocator(option.values.first()))
+        // check that chosen option is set correctly
+        isDisplay(optionValueLocator(option.values.first()))
     }
 
-    fun countImages(maxPages: Int): Int {
-        var count = driver.findElements(imgsWithIviLink).count()
+    fun countImages(maxPages: Int, minExpectedIviLinks: Int): Int {
+        var count = driver.findElements(imagesWithIviLinkLocator).count()
         var i = 1
-        while (maxPages >= i) {
-            (driver as JavascriptExecutor)
-                .executeScript("window.scrollTo(0, document.body.scrollHeight)")
-            count = driver.findElements(imgsWithIviLink).count()
-            i++
+        while (i <= maxPages && count < minExpectedIviLinks) {
+            scrollDown()
+            count = driver.findElements(imagesWithIviLinkLocator).count()
+            ++i
         }
         return count
     }

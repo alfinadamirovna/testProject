@@ -14,17 +14,17 @@ import org.openqa.selenium.remote.DesiredCapabilities
 
 class ApplicationManager {
     val baseUrl = "https://www.google.com"
-    val appUrl = "play.google.com"
     val driver = createLocalDriver()
     var googleMainHelper = GoogleSearchMainHelper(this)
     var googleSearchResultHelper = GoogleSearchResultHelper(this)
     var googlePlayHelper = GooglePlayHelper(this)
     val wikipediaHelper = WikipediaHelper(this)
 
-
+    // describe capabilities for chrome driver
     private fun createLocalDriver(): WebDriver {
         val capabilities = DesiredCapabilities(BrowserType.CHROME, "79.0", Platform.ANY)
         val options = ChromeOptions()
+        // add '.exe' if you are using Windows
         System.setProperty(
             "webdriver.chrome.driver",
             "${System.getProperty("user.dir")}/src/main/resources/chromedriver"

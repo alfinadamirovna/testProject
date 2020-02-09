@@ -24,6 +24,4 @@ class WikipediaArticlePage(driver: WebDriver) : Utils(driver) {
             0
         }
     }
-
-
 }
