@@ -7,7 +7,7 @@ import org.testng.Assert.assertTrue
 import org.testng.annotations.Test
 
 
-class SeleniumTest : TestFixture() {
+class SearchIviTest : TestFixture() {
 
     @Feature("Google Search")
     @Story("Images")

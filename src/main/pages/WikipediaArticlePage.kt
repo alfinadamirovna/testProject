@@ -8,7 +8,6 @@ class WikipediaArticlePage(driver: WebDriver) : Utils(driver) {
 
     //Locators
     private val wikipediaLogoLocator = By.xpath("//a[@class='mw-wiki-logo']")
-
     private fun iviLinkLocator(link: String) = By.xpath("//*[contains(text(),'$link')]")
 
     // Functions

@@ -24,12 +24,12 @@ class ApplicationManager {
     private fun createLocalDriver(): WebDriver {
         val capabilities = DesiredCapabilities(BrowserType.CHROME, "79.0", Platform.ANY)
         val options = ChromeOptions()
+        // add '.exe' if using Windows
+        val driverPath = "${System.getProperty("user.dir")}/src/main/resources/chromedriver"
         // add '.exe' if you are using Windows
         System.setProperty(
-            "webdriver.chrome.driver",
-            "${System.getProperty("user.dir")}/src/main/resources/chromedriver"
-        )
-        options.addArguments("start-maximized", "disable-browser-side-navigation")
+            "webdriver.chrome.driver", driverPath)
+        options.addArguments("start-fullscreen", "disable-browser-side-navigation")
         capabilities.setCapability(ChromeOptions.CAPABILITY, options)
         val service = ChromeDriverService.Builder()
             .usingAnyFreePort()
@@ -38,5 +38,3 @@ class ApplicationManager {
         return ChromeDriver(service, options)
     }
 }
-// прикрутить репорты
-// добавить документацию
