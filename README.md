@@ -3,24 +3,15 @@
 **Инструкция по установке:**
 _при возникновении проблем можно писать в telegram @AlfyAlfy_
 1. Для клонирования проекта тестов, запустить команду `git clone https://github.com/alfinadamirovna/testProject.git`
-`Cloning into 'testProject'...
-remote: Enumerating objects: 312, done.
-remote: Counting objects: 100% (312/312), done.
-remote: Compressing objects: 100% (163/163), done.
-remote: Total 312 (delta 152), reused 276 (delta 116), pack-reused 0
-Receiving objects: 100% (312/312), 7.21 MiB | 5.10 MiB/s, done.
-Resolving deltas: 100% (152/152), done.`
+
 2. Для запуска тестов необходима версия openjdk version "1.8.0_202"
 _подробнее можно почитать тут https://openjdk.java.net/install/_
+
 3. В репозитории проекта выполнить команду `mvn compile`
 пример успешного результата:
-`[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  9.502 s
-[INFO] Finished at: 2020-02-09T16:15:58+03:00
-[INFO] ------------------------------------------------------------------------`
+
 4. Запуск класса тестов main.tests.SearchIviTest можно выполнить настроив конфигурацию IDEA для TestNG
+
 5. Отчет о запуске можно сформировать командой
 `allure serve /${user.dir}/testProject/allure-results`
 
